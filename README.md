@@ -2,20 +2,27 @@
 
 ## Module Data.Void
 
-### Types
+#### `Void`
+
+``` purescript
+newtype Void
+  = Void Void
+```
 
 
-    newtype Void where
-      Void :: Void -> Void
+#### `coerce`
+
+``` purescript
+coerce :: forall f a b. (Contravariant f, Functor f) => f a -> f b
+```
 
 
-### Values
+#### `absurd`
 
+``` purescript
+absurd :: forall a. Void -> a
+```
 
-    absurd :: forall a. Void -> a
-
-
-    coerce :: forall f a b. (Contravariant f, Functor f) => f a -> f b
 
 
 

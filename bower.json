@@ -4,6 +4,6 @@
   "description": "PureScript uninhabited data type.",
   "license": "MIT",
   "dependencies": {
-    "purescript-contravariant": "~0.0.1"
+    "purescript-contravariant": "~0.1.0"
   }
 }

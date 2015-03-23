@@ -1,6 +1,6 @@
 module Data.Void where
 
-  import Data.Contravariant (Contravariant, (>$<))
+  import Data.Functor.Contravariant (Contravariant, (>$<))
 
   newtype Void = Void Void
 
