@@ -10,8 +10,8 @@ var gulp        = require('gulp')
   ;
 
 var paths = {
-    src: 'src/**/*.purs',
-    bowerSrc: 'bower_components/purescript-*/src/**/*.purs',
+    src: ['src/**/*.purs', 'bower_components/purescript-*/src/**/*.purs'],
+    ffi: ['src/**/*.js', 'bower_components/purescript-*/src/**/*.js'],
     dest: '',
     docsDest: 'README.md',
     manifests: [
@@ -23,17 +23,6 @@ var paths = {
 var options = {
     compiler: {},
     pscDocs: {}
-};
-
-var compile = function(compiler) {
-    var psc = compiler(options.compiler);
-    psc.on('error', function(e) {
-        console.error(e.message);
-        psc.end();
-    });
-    return gulp.src([paths.src, paths.bowerSrc])
-        .pipe(psc)
-        .pipe(gulp.dest(paths.dest));
 };
 
 function bumpType(type) {
@@ -70,26 +59,16 @@ gulp.task('bump-tag-patch', function() {
 });
 
 gulp.task('make', function() {
-    return compile(purescript.pscMake);
+    return purescript.psc({ src: paths.src, ffi: paths.ffi });
 });
 
-gulp.task('browser', function() {
-    return compile(purescript.psc);
-});
-
-gulp.task('docs', function() {
-    var pscDocs = purescript.pscDocs(options.pscDocs);
-    pscDocs.on('error', function(e) {
-        console.error(e.message);
-        pscDocs.end();
-    });
-    return gulp.src(paths.src)
-      .pipe(pscDocs)
-      .pipe(gulp.dest(paths.docsDest));
-});
-
-gulp.task('watch-browser', function() {
-    gulp.watch(paths.src, ['browser', 'docs']);
+gulp.task("docs", function() {
+  return purescript.pscDocs({
+    src: paths.src,
+    docgen: {
+      "Data.Void": "README.md"
+    }
+  });
 });
 
 gulp.task('watch-make', function() {
