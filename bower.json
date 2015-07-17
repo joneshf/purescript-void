@@ -1,9 +1,9 @@
 {
   "name": "purescript-void",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "PureScript uninhabited data type.",
   "license": "MIT",
   "dependencies": {
-    "purescript-contravariant": "~0.1.0"
+    "purescript-contravariant": "^0.2.0"
   }
 }

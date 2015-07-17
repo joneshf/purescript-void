@@ -1,12 +1,12 @@
 module Data.Void where
 
+  import Prelude
   import Data.Functor.Contravariant (Contravariant, (>$<))
 
   newtype Void = Void Void
-  
+
   instance eqVoid :: Eq Void where
-    (==) _ _ = true
-    (/=) _ _ = false
+    eq _ _ = true
 
   instance showVoid :: Show Void where
     show _ = "Void"
