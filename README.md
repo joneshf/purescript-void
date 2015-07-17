@@ -1,28 +1,13 @@
-## Module Data.Void
+# purescript-void
 
-#### `Void`
+Uninhabited data type.
 
-``` purescript
-newtype Void
-  = Void Void
+## Installation
+
+```
+bower i purescript-void
 ```
 
-##### Instances
-``` purescript
-instance eqVoid :: Eq Void
-instance showVoid :: Show Void
-```
+## Documentation
 
-#### `coerce`
-
-``` purescript
-coerce :: forall f a b. (Contravariant f, Functor f) => f a -> f b
-```
-
-#### `absurd`
-
-``` purescript
-absurd :: forall a. Void -> a
-```
-
-
+- [Data.Void3](docs/Data/Void3.md)
