@@ -9,21 +9,20 @@ var gulp        = require('gulp')
   , tagVersion  = require('gulp-tag-version')
   ;
 
-var paths = {
-    src: ['src/**/*.purs', 'bower_components/purescript-*/src/**/*.purs'],
-    ffi: ['src/**/*.js', 'bower_components/purescript-*/src/**/*.js'],
-    dest: '',
-    docsDest: 'README.md',
-    manifests: [
-      'bower.json',
-      'package.json'
-    ]
-};
-
-var options = {
-    compiler: {},
-    pscDocs: {}
-};
+var paths =
+    { src: 'src/**/*.purs'
+    , bowerFFIJs: [ 'bower_components/purescript-*/src/**/*.js'
+                  ]
+    , bowerSrc: [ 'bower_components/purescript-*/src/**/*.purs'
+                ]
+    , dest: ''
+    , docgen: { 'Data.Void': 'docs/Data/Void.md'
+              }
+    , ffi: 'src/**/*.js'
+    , manifests: [ 'bower.json'
+                 , 'package.json'
+                 ]
+    };
 
 function bumpType(type) {
     return gulp.src(paths.manifests)
@@ -58,21 +57,26 @@ gulp.task('bump-tag-patch', function() {
     return runSequence('bump-patch', 'tag');
 });
 
-gulp.task('make', function() {
-    return purescript.psc({ src: paths.src, ffi: paths.ffi });
+gulp.task('psc', function() {
+    return purescript.psc({
+        src: paths.bowerSrc.concat(paths.src),
+        ffi: paths.bowerFFIJs.concat(paths.ffi)
+    });
 });
 
-gulp.task("docs", function() {
-  return purescript.pscDocs({
-    src: paths.src,
-    docgen: {
-      "Data.Void": "README.md"
-    }
-  });
+gulp.task('docs', function() {
+    return purescript.pscDocs({
+        src: paths.bowerSrc.concat(paths.src),
+        docgen: paths.docgen
+    });
 });
 
-gulp.task('watch-make', function() {
-    gulp.watch(paths.src, ['make', 'docs']);
+gulp.task('watch', function() {
+    gulp.watch([paths.src], function() {
+      return runSequence('psc', 'docs')
+    });
 });
 
-gulp.task('default', ['make', 'docs']);
+gulp.task('default', function() {
+  return runSequence('psc', 'docs')
+});
