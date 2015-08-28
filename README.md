@@ -10,4 +10,4 @@ bower i purescript-void
 
 ## Documentation
 
-- [Data.Void3](docs/Data/Void3.md)
+- [Data.Void](docs/Data/Void.md)
